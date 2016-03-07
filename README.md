@@ -35,4 +35,4 @@ Available wordpress shortcodes are,
     For example `[rcamatch key="iplt20_2013_g30"]`
 
 ## Cricket API
-This plugin uses the Cricket API for fetching cricket scores and stats. Learn more about Cricket API on https://cricketapi.com . Feel free to contact their amazing support team, if you got struck.
+This plugin uses the Cricket API for fetching cricket scores and stats. Learn more about Cricket API on https://www.cricketapi.com . Feel free to contact their amazing support team, if you got struck.
