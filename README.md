@@ -23,7 +23,7 @@ Available wordpress shortcodes are,
 
 
 ## Get Started
-1. Download and install wordpress plugin from http://static.litzscore.com/release/wordpress/plugin/cricket-litzscore.zip
+1. Download and install wordpress plugin from the release directory.
 2. Activate your plugin
 3. Goto Wordpress admin -> Settings -> CricketAPI. Provide your application details there.
 4. Method-I:
