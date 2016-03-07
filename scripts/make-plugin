@@ -1,4 +1,5 @@
 #! /bin/bash
+cd ../asserts
 
 echo "Copying files"
 cp css/rca-cricket.css ../plugin/cricket-api/views/
