@@ -1,0 +1,14 @@
+{
+    "DistributionId": "E3TI44SJKXQYB5", 
+    "InvalidationBatch": {
+        "Paths": {
+            "Quantity": 3, 
+            "Items": [
+                "/release/wordpress/plugin/cricket-api.zip",
+                "/release/wordpress/css/rca-cricket.css",
+                "/release/wordpress/css/rca-cricket-angular.js"
+            ]
+        }, 
+        "CallerReference": "wp-plugin-publish"
+    }
+}
