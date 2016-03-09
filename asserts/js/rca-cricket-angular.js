@@ -92,7 +92,7 @@ app.directive('rcaCricketMatch', function(rcaAPI){
       $scope.dataStatus = 'loading'; //'ready', 'error'
       $scope.match = null;
       $scope.activeView = null;
-      $scope.activeTeamView = null;
+      $scope.activeTeamInnings = null;
       $scope.appConfig = appConfig;
 
       $scope.teamFlagUrl = function(key){
@@ -139,33 +139,39 @@ app.directive('rcaCricketMatch', function(rcaAPI){
           match.allInnings[k].inningsNumber = b[1];
         }
 
-        // Team Y Bench Players
-        var teamXPlayers = match.teams['b'].match.players;
-        var teamXPlaying = match.teams['b'].match.playing_xi;
+        // Team X Bench Players
+        var teamXPlayers = match.teams['a'].match.players;
+        var teamXPlaying = match.teams['a'].match.playing_xi;
         if(teamXPlaying == null) {
           var teamXSubstitute = teamXPlayers;
         } else {
           var teamXSubstitute = teamXPlayers.filter(function(obj) { return teamXPlaying.indexOf(obj) == -1; });
         }
-        match.teams['b'].match.benchPlayers = teamXSubstitute;
+        match.teams['a'].match.benchPlayers = teamXSubstitute;
         match.benchXPlayersCount = teamXSubstitute.length;
 
-        // Team X Bench Players
-        var teamYPlayers = match.teams['a'].match.players;
-        var teamYPlaying = match.teams['a'].match.playing_xi;
+        // Team Y Bench Players
+        var teamYPlayers = match.teams['b'].match.players;
+        var teamYPlaying = match.teams['b'].match.playing_xi;
         if(teamYPlaying == null) {
           var teamYSubstitute = teamYPlayers;
         } else {
           var teamYSubstitute = teamYPlayers.filter(function(obj) { return teamYPlaying.indexOf(obj) == -1; });
         }        
-        match.teams['a'].match.benchPlayers = teamYSubstitute;
+        match.teams['b'].match.benchPlayers = teamYSubstitute;
         match.benchYPlayersCount = teamYSubstitute.length;
 
 
         if(!($scope.activeView) && match.batting_order.length > 0){
           $scope.activeView = 'scorecard';
         }else if(!$scope.activeView){
-          $scope.activeView = 'overview';
+          $scope.activeView = 'teams';
+        }
+
+        if(!($scope.activeTeam) && match.teams['a']){
+          $scope.activeTeam = 'team_0';
+        }else if(!$scope.activeTeam){
+          $scope.activeTeam = 'team_1';
         }
 
         $scope.dataStatus = 'ready';          
@@ -279,7 +285,6 @@ app.directive('rcaCricketRecentMatch', function(rcaAPI){
 
 function showTab(event) {
   var sourceParent = event.parentElement.parentElement;
-  debugger;
   var sourceChilds = sourceParent.getElementsByClassName("rca-tab-content");
   var sourceLinkParent = sourceParent.getElementsByClassName("rca-tab-link");
   for (var i=0; i < sourceChilds.length; i++) {
