@@ -91,6 +91,7 @@
                   <div class="rca-match-schedule">
                     Over: {{match.innings[(match.now.batting_team+ '_1')].overs || "0.0"}}
                   </div>
+
                   <ul class="rca-ball-by">
                     <li class="b6">6</li>
                     <li class="">1wd</li>
@@ -100,14 +101,14 @@
                     <li class="b4">4</li>
                   </ul>
                   <div class="rca-bowler-info">
-                    <span>{{match.players[match.now.bowler].name || "Waiting for bowler"}} </span><span class="rca-bolwing">{{match.players[match.now.bowler].match.innings[('1')].bowling.runs}}/{{match.players[match.now.bowler].match.innings[('1')].bowling.wickets}} in {{match.players[match.now.bowler].match.innings[('1')].bowling.overs}}</span>
+                    <span>{{match.players[match.now.bowler].name || "Waiting for bowler"}} </span>
+                    <span class="rca-bolwing">{{match.players[match.now.bowler].match.innings[('1')].bowling.runs}}/{{match.players[match.now.bowler].match.innings[('1')].bowling.wickets}} in {{match.players[match.now.bowler].match.innings[('1')].bowling.overs}}</span>
                   </div>
                 </div>
               </div>
             </div>
             <div class="rca-top-padding rca-score-status">
-              <div class="rca-status-scroll">
-                {{match.now.last_ball.comment}}
+              <div class="rca-status-scroll" ng-bind-html="match.now.last_ball.comment">
               </div>
               <ul class="rca-bullet-list">
                 <li class="active" data-tab="#status1"></li>
@@ -196,43 +197,46 @@
           <div class="rca-border-bottom rca-padding">  
             <div class="rca-switch rca-top-padding">
               <ul class="rca-tab-list">
-              <li class="rca-tab-link active" ng-click="activeTeam='team_0'">{{match.teams.a.name}}</li>
-
-              <li class="rca-tab-link" ng-click="activeTeam='team_1'">{{match.teams.b.name}}</li>
+                <span ng-repeat="inn in match.allInnings" ng-click="activeTeamInnings='team_{{inn.teamKey}}_{{inn.inningsNumber}}'">
+                  <li class="rca-tab-link">{{match.teams[inn.teamKey].name}}</li>
+                </span>
               </ul>
             </div>
           </div>
 
-          <div ng-repeat="inn in match.allInnings" ng-show="activeTeam=='team_{{$index}}'">       
+          <div ng-repeat="inn in match.allInnings" ng-show="activeTeamInnings=='team_{{inn.teamKey}}_{{inn.inningsNumber}}'">       
               <!-- Batting Card -->
               <div class="rca-batting-score rca-padding" ng-if="inn.batting_order.length > 0">
                 <h3>{{match.teams[inn.teamKey].name}} Batting: <strong> {{inn.runs}}/{{inn.wickets}} in {{inn.overs}}</strong></h3>
-                
-                <div class="rca-row rca-header">
-                  <div class="rca-col rca-player">Batsmen</div>
-                  <div class="rca-col">R</div>
-                  <div class="rca-col">4s</div>
-                  <div class="rca-col">6s</div>
-                  <div class="rca-col">SR</div>
+                <div class="rca-row">
+                  <div class="rca-header rca-table">
+                    <div class="rca-col rca-player">Batsmen</div>
+                    <div class="rca-col">R</div>
+                    <div class="rca-col">4s</div>
+                    <div class="rca-col">6s</div>
+                    <div class="rca-col">SR</div>
+                  </div>
                 </div>
 
                 <span ng-repeat="pk in inn.batting_order">
                   <div class="rca-row">
-                    <div class="rca-col rca-player">
-                      <span ng-bind="match.players[pk].name"></span>
-                      <p ng-bind="match.players[pk].match.innings[inn.inningsNumber].batting.out_str"></p>
-                    </div>
-                    <div class="rca-col">
-                      {{match.players[pk].match.innings[inn.inningsNumber].batting.runs || "0"}} ({{match.players[pk].match.innings[inn.inningsNumber].batting.balls || "0"}})
-                    </div>
-                    <div class="rca-col">
-                      {{match.players[pk].match.innings[inn.inningsNumber].batting.fours || "0"}}
-                    </div>
-                    <div class="rca-col">
-                      {{match.players[pk].match.innings[inn.inningsNumber].batting.sixes || "0"}}
-                    </div>
-                    <div class="rca-col">
-                      {{match.players[pk].match.innings[inn.inningsNumber].batting.strike_rate || "0.00"}}
+                    <div class="rca-table">
+                      <div class="rca-col rca-player">
+                        <span ng-bind="match.players[pk].name"></span>
+                        <p ng-bind="match.players[pk].match.innings[inn.inningsNumber].batting.out_str"></p>
+                      </div>
+                      <div class="rca-col">
+                        {{match.players[pk].match.innings[inn.inningsNumber].batting.runs || "0"}} ({{match.players[pk].match.innings[inn.inningsNumber].batting.balls || "0"}})
+                      </div>
+                      <div class="rca-col">
+                        {{match.players[pk].match.innings[inn.inningsNumber].batting.fours || "0"}}
+                      </div>
+                      <div class="rca-col">
+                        {{match.players[pk].match.innings[inn.inningsNumber].batting.sixes || "0"}}
+                      </div>
+                      <div class="rca-col">
+                        {{match.players[pk].match.innings[inn.inningsNumber].batting.strike_rate || "0.00"}}
+                      </div>
                     </div>
                   </div>
                 </span>
@@ -248,7 +252,8 @@
                 <!-- Bowling Card -->
                 <span ng-if="inn.bowling_order.length > 0">
                 <h3>{{match.teams[inn.teamKey].name}} Bowling:</h3>
-                  <div class="rca-row rca-header">
+                <div class="rca-row">
+                  <div class="rca-header rca-table">
                     <div class="rca-col rca-player">
                       Bowler
                     </div>
@@ -271,9 +276,11 @@
                       Extras
                     </div>
                   </div>
+                </div>
 
                   <span ng-repeat="pk in inn.bowling_order">
                     <div class="rca-row">
+                    <div class="rca-table">
                       <div class="rca-col rca-player" ng-bind="match.players[pk].name">
                         
                       </div>
@@ -295,6 +302,7 @@
                       <div class="rca-col small">
                         {{match.players[pk].match.innings[inn.inningsNumber].bowling.extras || "0"}}
                       </div>
+                    </div>
                     </div>
                   </span>
                 </span>
@@ -336,9 +344,11 @@
                           <span class="rca-player" ng-bind="match.players[pk].name"></span>
                           <span class="rca-highlight-text" ng-show="pk==match.teams['a'].match.captain">(C)</span>
                           <span class="rca-highlight-text" ng-show="pk==match.teams['a'].match.keeper">(WK)</span>
-                          <span class="rca-right rca-basic-text" ng-show="match.players[pk].identified_roles.bowler == true">Bowler</span>
-                          <span class="rca-right rca-basic-text" ng-show="match.players[pk].identified_roles.batsman == true">Batsman</span>
-                          <span class="rca-right rca-basic-text" ng-show="match.players[pk].identified_roles[batsman && bowler && keeper] == true"> All Rounderer</span>
+                          <span class="rca-right rca-basic-text" ng-if="match.players[pk].identified_roles.batsman && match.players[pk].identified_roles.bowler == true"> All Rounderer</span>
+
+                          <span class="rca-right rca-basic-text" ng-if="match.players[pk].identified_roles.batsman == true && match.players[pk].identified_roles.bowler != true"> Batsman</span>
+
+                          <span class="rca-right rca-basic-text" ng-if="match.players[pk].identified_roles.batsman != true && match.players[pk].identified_roles.bowler == true"> Bowler</span>
                       </div>
                     </div>
                   </div>
@@ -350,9 +360,11 @@
                         <span class="rca-player" ng-bind="match.players[pk].name"></span>
                         <span class="rca-highlight-text" ng-show="pk==match.teams['a'].match.captain">(C)</span>
                         <span class="rca-highlight-text" ng-show="pk==match.teams['a'].match.keeper">(WK)</span>
-                        <span class="rca-right rca-basic-text" ng-show="match.players[pk].identified_roles.bowler == true">Bowler</span>
-                        <span class="rca-right rca-basic-text" ng-show="match.players[pk].identified_roles.batsman == true">  Batsman</span>
-                        <span class="rca-right rca-basic-text" ng-show="match.players[pk].identified_roles[batsman && bowler && keeper] == true"> All Rounderer</span>
+                        <span class="rca-right rca-basic-text" ng-if="match.players[pk].identified_roles.batsman && match.players[pk].identified_roles.bowler == true"> All Rounderer</span>
+
+                        <span class="rca-right rca-basic-text" ng-if="match.players[pk].identified_roles.batsman == true && match.players[pk].identified_roles.bowler != true"> Batsman</span>
+
+                        <span class="rca-right rca-basic-text" ng-if="match.players[pk].identified_roles.batsman != trues && match.players[pk].identified_roles.bowler == true"> Bowler</span>
                       
                     </div>
                   </div>
@@ -368,9 +380,12 @@
                           <span class="rca-player" ng-bind="match.players[pk].name"></span>
                           <span class="rca-highlight-text" ng-show="pk==match.teams['b'].match.captain">(C)</span>
                           <span class="rca-highlight-text" ng-show="pk==match.teams['b'].match.keeper">(WK)</span>
-                          <span class="rca-right rca-basic-text" ng-show="match.players[pk].identified_roles.bowler == true">Bowler</span>
-                          <span class="rca-right rca-basic-text" ng-show="match.players[pk].identified_roles.batsman == true">  Batsman</span>
-                          <span class="rca-right rca-basic-text" ng-show="match.players[pk].identified_roles[batsman && bowler && keeper] == true"> All Rounderer</span>
+                          
+                          <span class="rca-right rca-basic-text" ng-if="match.players[pk].identified_roles.batsman && match.players[pk].identified_roles.bowler == true"> All Rounderer</span>
+
+                          <span class="rca-right rca-basic-text" ng-if="match.players[pk].identified_roles.batsman == true && match.players[pk].identified_roles.bowler != true"> Batsman</span>
+
+                          <span class="rca-right rca-basic-text" ng-if="match.players[pk].identified_roles.batsman != true && match.players[pk].identified_roles.bowler == true"> Bowler</span>
                       </div>
                     </div>
                   </div>
@@ -382,9 +397,11 @@
                         <span class="rca-player" ng-bind="match.players[pk].name"></span>
                         <span class="rca-highlight-text" ng-show="pk==match.teams['b'].match.captain">(C)</span>
                         <span class="rca-highlight-text" ng-show="pk==match.teams['b'].match.keeper">(WK)</span>
-                        <span class="rca-right rca-basic-text" ng-show="match.players[pk].identified_roles.bowler == true">Bowler</span>
-                        <span class="rca-right rca-basic-text" ng-show="match.players[pk].identified_roles.batsman == true">  Batsman</span>
-                        <span class="rca-right rca-basic-text" ng-show="match.players[pk].identified_roles[batsman && bowler && keeper] == true"> All Rounderer</span>
+                        <span class="rca-right rca-basic-text" ng-if="match.players[pk].identified_roles.batsman && match.players[pk].identified_roles.bowler == true"> All Rounderer</span>
+
+                        <span class="rca-right rca-basic-text" ng-if="match.players[pk].identified_roles.batsman == true && match.players[pk].identified_roles.bowler != true"> Batsman</span>
+
+                        <span class="rca-right rca-basic-text" ng-if="match.players[pk].identified_roles.batsman != true && match.players[pk].identified_roles.bowler == true"> Bowler</span>
                     </div>
                   </div>
               </div>

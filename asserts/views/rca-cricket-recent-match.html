@@ -1,0 +1,109 @@
+<div class="rca-container rca-margin">
+
+  <div class="row animate-show" ng-show="dataStatus == 'loading'">
+    <div class="col-md-12">
+      <div class="lz-loading">
+        <p>loading match...</p>
+      </div>
+    </div> 
+  </div>
+
+  <div class="row animate-show" ng-show="dataStatus == 'error'">
+    <div class="col-md-12">
+      <div class="lz-data-error">
+        <p>Oops! Something went wrong!</p>
+      </div>
+    </div>
+  </div>  
+
+  <div class="rca-row" ng-show="dataStatus == 'ready'">
+    <div class="rca-column-4">
+      <div class="rca-mini-widget rca-top-border  rca-tab-simple">
+        <ul class="rca-tab-list">
+            <li class="rca-tab-link" data-tab="tab-11" onclick="showTab(this);">Live</li>
+            <li class="rca-tab-link" data-tab="tab-12" onclick="showTab(this);">Results</li>
+            <li class="rca-tab-link active" data-tab="tab-13" onclick="showTab(this);">Starts In</li>
+        </ul>
+
+        <!-- Started -->
+        <div id="tab-11" class="rca-padding rca-tab-content">
+            <div class="rca-padding">
+              <h3 class="rca-match-title">
+                <a href="/main.html">
+                  IND: 173/2 in 18.5                  
+                  <span class="rca-live-label rca-right">IND vs NZL</span>
+                </a>
+              </h3>
+              <p class="rca-match-info">
+                <span>IND: 16/1 in 1.0</span>
+                <span>CRR:4.1</span>
+                <span>Req RR:10.1</span>
+              </p>
+              <div class="rca-top-padding">
+                <div class="rca-batsman striker">
+                  <span class="player">V Kohli</span>
+                  <span>48(27)</span>
+                </div>
+                <div class="rca-batsman">
+                  <span class="player">MS Dhoni</span>
+                  <span>14(8)</span>
+                </div>
+              </div>
+              <div class="rca-ball-detail">
+                <div class="rca-match-schedule">
+                  Over: 24
+                </div>
+                <ul class="rca-ball-by">
+                  <li class="b6">6</li>
+                  <li class="">1wd</li>
+                  <li class="rca-wicket">w</li>
+                  <li class="">1</li>
+                  <li class="">2</li>
+                  <li class="b6">4</li>
+                </ul>
+              </div>
+            </div>
+            <div class="rca-top-padding rca-score-status">
+              <div class="rca-status-scroll">
+                FOUR!!! from Dhoni
+              </div>
+              <ul class="rca-bullet-list">
+                <li class="active" data-tab="#status1"></li>
+                <li data-tab="#status2"></li>
+                <li data-tab="#status3"></li>
+              </ul>
+            </div>
+        </div>s
+
+        <!-- Completed -->
+        <div id="tab-12" class="rca-padding rca-tab-content">
+          <span ng-repeat="card in match" ng-if="card.status == 'completed'">
+            <div class="rca-match-detail rca-padding">
+              <h3 class="rca-match-title">
+                <a href="{{card.key}}">{{card.short_name}}</a>
+                <span class="rca-match-info rca-right">{{card.related_name}}</span>
+              </h3>
+              <p class="rca-duration">{{card.msgs.info}}</p>
+              <p class="rca-match-schedule">Sun, 31 Jan 2:10 pm IST</p>
+            </div>
+          </span>
+        </div>
+
+        <!-- Not Started -->
+        <div id="tab-13" class="rca-padding rca-tab-content active">
+          <span ng-repeat="card in match" ng-if="card.status == 'notstarted'">
+            <div class="rca-match-detail rca-padding">
+              <h3 class="rca-match-title">
+                <a href="{{card.key}}">{{card.short_name}}</a>
+                <span class="rca-match-info rca-right">{{card.related_name}}</span>
+              </h3>
+              <p class="rca-duration">Start in 21hrs</p>
+              <p class="rca-match-schedule">{{card.start_date.iso}}</p>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

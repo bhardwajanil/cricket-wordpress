@@ -236,10 +236,21 @@
 	},
 	"expanded_folders":
 	[
-		"/home/sai-roanuz/projects/cricket-wordpress"
+		"/home/sai-roanuz/cricket-wordpress"
 	],
 	"file_history":
 	[
+		"/home/sai-roanuz/cricket-wordpress/asserts/views/rca-cricket-match.html",
+		"/home/sai-roanuz/cricket-wordpress/plugin/cricket-api/cricket-api.php",
+		"/home/sai-roanuz/cricket-wordpress/README.md",
+		"/home/sai-roanuz/cricket-wordpress/plugin/cricket-api/cricket-api-score-widgets.php",
+		"/home/sai-roanuz/cricket-wordpress/plugin/cricket-api/rcaLibrary.php",
+		"/home/sai-roanuz/cricket-wordpress/asserts/js/rca-cricket-angular.js",
+		"/home/sai-roanuz/cricket-wordpress/scripts/publish-plugin-cdn",
+		"/home/sai-roanuz/cricket-wordpress/scripts/make-plugin",
+		"/home/sai-roanuz/cricket-wordpress/plugin/cricket-api/views/rca-cricket-angular.js",
+		"/home/sai-roanuz/cricket-wordpress/plugin/cricket-api/views/rca-cricket-match.html",
+		"/home/sai-roanuz/cricket-wordpress/.gitignore",
 		"/home/sai-roanuz/projects/cricket-wordpress/cricket-wordpress.sublime-project",
 		"/home/sai-roanuz/projects/wordpress/wp-content/plugins/cricket-api-v1.0/rcaLibrary.php",
 		"/home/sai-roanuz/projects/wordpress/wp-content/plugins/cricket-api-v1.0/views/rca-cricket.css",

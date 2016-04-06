@@ -53,175 +53,18 @@ function insert_script_src() {
   ));
 }
 
-function get_ballbyball_data($matchKey, $overKey){
-  $ak = getAccessToken();
-  if($ak){
-    $ballbyball_data = getBallByBall($ak, $matchKey, $overKey);
-    return $ballbyball_data;
-  }else{
-    setAccessToken();
-    $ak = getAccessToken();
-    if($ak){
-      return get_ballbyball_data($matchKey, $overKey);
-    }else{
-      die('Error while getting season information');
-    }
-  } 
-}
-
-function get_recent_season_data(){
-  $ak = getAccessToken();
-  if($ak){
-    $recent_season_data = getRecentSeason($ak);
-    return $recent_season_data;
-  }else{
-    setAccessToken();
-    $ak = getAccessToken();
-    if($ak){
-      return get_recent_season_data();
-    }else{
-      die('Error while getting season information');
-    }
-  }
-}
-
-function get_schedule_data(){
-  $ak = getAccessToken();
-  if($ak){
-    $schedule_data = getSchedule($ak);
-    return $schedule_data;
-  }else{
-    setAccessToken();
-    $ak = getAccessToken();
-    if($ak){
-      return get_schedule_data();
-    }else{
-      die('Error while getting season information');
-    }
-  }
-}
-
-function get_schedule_season_data($seasonKey){
-  $ak = getAccessToken();
-  if($ak){
-    $schedule_season_data = getSeasonSchedule($ak, $seasonKey);
-    return $schedule_season_data;
-  }else{
-    setAccessToken();
-    $ak = getAccessToken();
-    if($ak){
-      return get_schedule_season_data($seasonKey);
-    }else{
-      die('Error while getting season information');
-    }
-  }
-}
-
-function get_season_data($seasonKey){
-  $ak = getAccessToken();
-  if($ak){
-    $season = getSeason($ak, $seasonKey, 'micro_card');
-    return $season;
-  }else{
-    setAccessToken();
-    $ak = getAccessToken();
-    if($ak){
-      return get_season_data($seasonKey);
-    }else{
-      die('Error while getting season information');
-    }
-  }
-}
-
-function get_season_stats_data($seasonKey){
-  $ak = getAccessToken();
-  if($ak){
-    $season_stats = getSeasonStats($ak, $seasonKey);
-    return $season_stats;
-  }else{
-    setAccessToken();
-    $ak = getAccessToken();
-    if($ak){
-      return get_season_stats_data($seasonKey);
-    }else{
-      die('Error while getting season information');
-    }
-  }
-}
-
-function get_season_points_data($seasonKey){
-  $ak = getAccessToken();
-  if($ak){
-    $season_points = getSeasonPoints($ak, $seasonKey);
-    return $season_points;
-  }else{
-    setAccessToken();
-    $ak = getAccessToken();
-    if($ak){
-      return get_season_points_data($seasonKey);
-    }else{
-      die('Error while getting season information');
-    }
-  }
-}
-
-function get_player_stats_data($seasonKey, $playerKey){
-  $ak = getAccessToken();
-  if($ak){
-    $player_stats = getSeasonPlayerStats($ak, $seasonKey, $playerKey);
-    return $player_stats;
-  }else{
-    setAccessToken();
-    $ak = getAccessToken();
-    if($ak){
-      return get_player_stats_data($seasonKey, $playerKey);
-    }else{
-      die('Error while getting season information');
-    }
-  }
-}
-
-function get_over_summary_data($matchKey){
-  $ak = getAccessToken();
-  if($ak){
-    $over_summary = getOversSummary($ak, $matchKey);
-    return $over_summary;
-  }else{
-    setAccessToken();
-    $ak = getAccessToken();
-    if($ak){
-      return get_over_summary_data($matchKey);
-    }else{
-      die('Error while getting season information');
-    }
-  }
-}
-
-function get_news_aggregation_data(){
-  $ak = getAccessToken();
-  if($ak){
-    $news_aggregation_data = getNewsAggregation($ak);
-    return $news_aggregation_data;
-  }else{
-    setAccessToken();
-    $ak = getAccessToken();
-    if($ak){
-      return get_news_aggregation_data();
-    }else{
-      die('Error while getting season information');
-    }
-  } 
-}
-
+/**
+ * Helper functions for Shortcodes Starts Here
+ */
 function rcamatch_request(){
   $ak = getAccessToken();
+
   if($ak){
     $matchKey = $_REQUEST['key'];
-    $matchData = getMatch($ak, $matchKey, 'full_card');
-
+    $matchData = getMatch($matchKey, 'full_card');
     wp_send_json(array('data'=>$matchData));
     exit();
-  }else{
+  } else {
     setAccessToken();
     $ak = getAccessToken();
     if($ak){
@@ -232,11 +75,27 @@ function rcamatch_request(){
   }
 }
 
+function get_ballbyball_data($matchKey, $overKey){
+  $ak = getAccessToken();
+  if($ak){
+    $ballbyball_data = getBallByBall($matchKey, $overKey);
+    return $ballbyball_data;
+  }else{
+    setAccessToken();
+    $ak = getAccessToken();
+    if($ak){
+      return get_ballbyball_data($matchKey, $overKey);
+    }else{
+      die('Error while getting BallByBall information');
+    }
+  } 
+}
+
 function rcarecentmatch_request(){
   $ak = getAccessToken();
   if($ak){
     $seasonKey = $_REQUEST['key'];
-    $matchData = getRecentMatch($ak, $seasonKey, 'micro_card');
+    $matchData = getRecentMatch($seasonKey, 'micro_card');
 
     wp_send_json(array('data'=>$matchData));
     exit();
@@ -251,6 +110,170 @@ function rcarecentmatch_request(){
   }
 }
 
+function get_recent_season_data(){
+  $ak = getAccessToken();
+  if($ak){
+    $recent_season_data = getRecentSeason();
+    return $recent_season_data;
+  }else{
+    setAccessToken();
+    $ak = getAccessToken();
+    if($ak){
+      return get_recent_season_data();
+    }else{
+      die('Error while getting Recent Season information');
+    }
+  }
+}
+
+function get_schedule_data($date){
+  $ak = getAccessToken();
+  if($ak){
+    $schedule_data = getSchedule($date);
+    return $schedule_data;
+  }else{
+    setAccessToken();
+    $ak = getAccessToken();
+    if($ak){
+      return get_schedule_data();
+    }else{
+      die('Error while getting Schedule information');
+    }
+  }
+}
+
+function get_schedule_season_data($seasonKey){
+  $ak = getAccessToken();
+  if($ak){
+    $schedule_season_data = getSeasonSchedule($seasonKey);
+    return $schedule_season_data;
+  }else{
+    setAccessToken();
+    $ak = getAccessToken();
+    if($ak){
+      return get_schedule_season_data($seasonKey);
+    }else{
+      die('Error while getting Season Schedule information');
+    }
+  }
+}
+
+function get_player_stats_data($playerKey, $leagueKey){
+  $ak = getAccessToken();
+  if($ak){
+    $player_stats = getPlayerStats($playerKey, $leagueKey);
+    return $player_stats;
+  }else{
+    setAccessToken();
+    $ak = getAccessToken();
+    if($ak){
+      return get_player_stats_data($playerKey, $leagueKey);
+    }else{
+      die('Error while getting Player Stats information');
+    }
+  }
+}
+
+function get_season_data($seasonKey){
+  $ak = getAccessToken();
+  if($ak){
+    $season = getSeason($seasonKey, 'summary_card');
+    return $season;
+  }else{
+    setAccessToken();
+    $ak = getAccessToken();
+    if($ak){
+      return get_season_data($seasonKey);
+    }else{
+      die('Error while getting Season information');
+    }
+  }
+}
+
+function get_season_stats_data($seasonKey){
+  $ak = getAccessToken();
+  if($ak){
+    $season_stats = getSeasonStats($seasonKey);
+    return $season_stats;
+  }else{
+    setAccessToken();
+    $ak = getAccessToken();
+    if($ak){
+      return get_season_stats_data($seasonKey);
+    }else{
+      die('Error while getting Season Stats information');
+    }
+  }
+}
+
+function get_season_points_data($seasonKey){
+  $ak = getAccessToken();
+  if($ak){
+    $season_points = getSeasonPoints($seasonKey);
+    return $season_points;
+  }else{
+    setAccessToken();
+    $ak = getAccessToken();
+    if($ak){
+      return get_season_points_data($seasonKey);
+    }else{
+      die('Error while getting Season Points information');
+    }
+  }
+}
+
+function get_seasonteam_data($seasonKey, $teamKey, $statsType){
+  $ak = getAccessToken();
+  if($ak){
+    $seasonteam = getSeasonTeam($seasonKey, $teamKey, $statsType);
+    return $seasonteam;
+  }else{
+    setAccessToken();
+    $ak = getAccessToken();
+    if($ak){
+      return get_seasonteam_data($seasonKey, $teamKey, $statsType);
+    }else{
+      die('Error while getting Season Team information');
+    }
+  }
+}
+
+function get_over_summary_data($matchKey){
+  $ak = getAccessToken();
+  if($ak){
+    $over_summary = getOversSummary($matchKey);
+    return $over_summary;
+  }else{
+    setAccessToken();
+    $ak = getAccessToken();
+    if($ak){
+      return get_over_summary_data($matchKey);
+    }else{
+      die('Error while getting Overs Summary information');
+    }
+  }
+}
+
+function get_news_aggregation_data(){
+  $ak = getAccessToken();
+  if($ak){
+    $news_aggregation_data = getNewsAggregation();
+    return $news_aggregation_data;
+  }else{
+    setAccessToken();
+    $ak = getAccessToken();
+    if($ak){
+      return get_news_aggregation_data();
+    }else{
+      die('Error while getting News Aggregation information');
+    }
+  } 
+}
+/**
+ * Helper functions for Shortcodes Ends Here
+ */
+
+
 function rcaInit(){
     insert_header_script();
     insert_script_src();
@@ -260,9 +283,8 @@ function rcaInit(){
 function rcaMatch($attrs){
   rcaInit();
   $attrs = shortcode_atts(array(
-                'key' => null,
-                'card_type' =>'null',
-                'theme' => 'lz-theme-green-red'),
+                'key' => 'null',
+                'card_type' =>'null'),
                 $attrs, 'rcamatch' );
 
   if($attrs['key'] && !is_null($attrs['key'])){
@@ -274,17 +296,52 @@ function rcaMatch($attrs){
   $nonceValue = wp_create_nonce( 'rcaapiactionsmatch' );
   echo '
           <div ng-app="rcaCricket">
-            <div class="lz-outter-box '. $attrs['theme'] .'" rca-cricket-match="'.$matchKey.'" sec="'.$nonceValue.'"></div>
+            <div class="lz-outter-box" rca-cricket-match="'.$matchKey.'" sec="'.$nonceValue.'"></div>
           </div>
         ';
+}
+
+function rcaMatchPromo($attrs){
+  rcaInit();
+  $attrs = shortcode_atts(array(
+                'key' => 'null',
+                'card_type' =>'null'),
+                $attrs, 'rcamatchpromo' );
+
+  if($attrs['key'] && !is_null($attrs['key'])){
+    $matchKey = $attrs['key'];
+  }else{
+    $matchKey = get_query_var('rca_matchkey');
+  }
+
+  $nonceValue = wp_create_nonce( 'rcaapiactionsmatch' );
+  echo '
+          <div ng-app="rcaCricket">
+            <div class="lz-outter-box" rca-cricket-match-promo="'.$matchKey.'" sec="'.$nonceValue.'"></div>
+          </div>
+        ';
+}
+
+function rcaBallByBall($attrs){
+  rcaInit();
+  $attrs = shortcode_atts(array(
+                    'matchkey' => 'null',
+                    'overkey' => 'null'),
+                    $attrs, 'rcaballbyball');
+
+  $matchKey = $attrs['matchkey'];
+  $overKey = $attrs['overkey'];
+
+  $ballbyballData = get_ballbyball_data($matchKey, $overKey);
+
+  include_once 'views/rca-cricket-season-test.php';
 }
 
 function rcaRecentMatch($attrs) {
   rcaInit();
   $attrs = shortcode_atts(array(
                 'key' => 'null',
-                'card_type' => 'null',
-                'theme' => 'lz-theme-green-red'),
+                'card_type' => 'null'),
                 $attrs, 'rcarecentmatch');
 
   $seasonKey = $attrs['key'];
@@ -298,54 +355,53 @@ function rcaRecentMatch($attrs) {
        ';
 }
 
-function rcaBallByBall($attrs){
-  rcaInit();
-  $attrs = shortcode_atts(array(
-                    'matchkey' => 'null',
-                    'overkey' => 'null',
-                    'theme' => 'lz-theme-green-red'),
-                    $attrs, 'rcaballbyball');
-
-  $matchKey = $attrs['matchkey'];
-  $overKey = $attrs['overkey'];
-
-  $ballbyballData = get_ballbyball_data($matchKey, $overKey);
-
-  include_once 'views/rca-cricket-season-test.php';
-}
-
 function rcaRecentSeason($attrs){
   rcaInit();
-  $attrs = shortcode_atts(array(
-                  'theme' => 'lz-theme-green-red'),
+  $attrs = shortcode_atts(array(),
                   $attrs, 'rcarecentseason');
 
   $recentSeasonData = get_recent_season_data();
 
-  include_once 'views/rca-cricket-season-test.php';
+  include_once 'views/rca-cricket-recent-season.php';
 }
 
 function rcaSchedule($attrs){
   rcaInit();
   $attrs = shortcode_atts(array(
-                'theme' => 'lz-theme-green-red'),
+                'date' => 'null'),
                 $attrs, 'rcaschedule');
 
-  $scheduleData = get_schedule_data();
+  $date = $attrs['date'];
 
-  include_once 'views/rca-cricket-season-test.php';
+  $scheduleData = get_schedule_data($date);
+
+  include_once 'views/rca-cricket-schedule.php';
 }
 
 function rcaScheduleSeason($attrs){
   rcaInit();
   $attrs = shortcode_atts(array(
-                  'key' => 'null',
-                  'theme' => 'lz-theme-green-red'),
+                  'key' => 'null'),
                   $attrs, 'rcascheduleseason');
 
   $seasonKey = $attrs['key'];
 
   $scheduleseasonData = get_schedule_season_data($seasonKey);
+
+  include_once 'views/rca-cricket-schedule.php';
+}
+
+function rcaPlayerStats($attrs){
+  rcaInit();
+  $attrs = shortcode_atts(array(
+                'playerkey' => 'null',
+                'leaguekey' => 'null'),
+                $attrs, 'rcaplayerstats');
+
+  $leagueKey = $attrs['leaguekey'];
+  $playerKey = $attrs['playerkey'];
+  
+  $playerstatsData = get_player_stats_data($playerKey, $leagueKey);
 
   include_once 'views/rca-cricket-season-test.php';
 }
@@ -354,14 +410,13 @@ function rcaSeason($attrs){
   rcaInit();
   $attrs = shortcode_atts(array(
                 'key' => 'null',
-                'card_type' =>'micro_card',
-                'theme' => 'lz-theme-green-red',
+                'card_type' =>'null',
                 'match_page_id'=>null),
                 $attrs, 'rcaseasons');
 
   $seasonKey = $attrs['key'];
   $seasonData = get_season_data($seasonKey);
-  $matchUrlPrefix = get_site_url().'/matches/';
+  $matchUrlPrefix = get_site_url().'/';
 
   if(!is_null($attrs['match_page_id'])){
     $matchUrlPrefix = $matchUrlPrefix . $attrs['match_page_id'] . '/';
@@ -373,8 +428,7 @@ function rcaSeason($attrs){
 function rcaSeasonStats($attrs){
   rcaInit();
   $attrs = shortcode_atts(array(
-                'key' => 'null',
-                'theme' => 'lz-theme-green-red'),
+                'key' => 'null'),
                 $attrs, 'rcaseasonstats');
 
   $seasonKey = $attrs['key'];
@@ -386,8 +440,7 @@ function rcaSeasonStats($attrs){
 function rcaSeasonPoints($attrs){
   rcaInit();
   $attrs = shortcode_atts(array(
-                'key' => 'null',
-                'theme' => 'lz-theme-green-red'),
+                'key' => 'null'),
                 $attrs, 'rcaseasonpoints');
 
   $seasonKey = $attrs['key'];
@@ -396,18 +449,19 @@ function rcaSeasonPoints($attrs){
   include_once 'views/rca-cricket-season-test.php';
 }
 
-function rcaPlayerStats($attrs){
+function rcaSeasonTeam($attrs){
   rcaInit();
   $attrs = shortcode_atts(array(
-                'seasonkey' => 'null',
-                'playerkey' => 'null',
-                'theme' => 'lz-theme-green-red'),
-                $attrs, 'rcaplayerstats');
+                    'seasonkey' => 'null',
+                    'teamkey' => 'null',
+                    'statstype' => 'null'),
+                    $attrs, 'rcaseasonteam');
 
   $seasonKey = $attrs['seasonkey'];
-  $playerKey = $attrs['playerkey'];
-  
-  $playerstatsData = get_player_stats_data($seasonKey, $playerKey);
+  $teamKey = $attrs['teamkey'];
+  $statsType = $attrs['statstype'];
+
+  $seasonteamData = get_seasonteam_data($seasonKey, $teamKey, $statsType);
 
   include_once 'views/rca-cricket-season-test.php';
 }
@@ -415,8 +469,7 @@ function rcaPlayerStats($attrs){
 function rcaOverSummary($attrs){
   rcaInit();
   $attrs = shortcode_atts(array(
-                'key' => 'null',
-                'theme' => 'lz-theme-green-red'),
+                'key' => 'null'),
                 $attrs, 'rcaoversummary');
 
   $matchKey = $attrs['key'];
@@ -428,8 +481,7 @@ function rcaOverSummary($attrs){
 
 function rcaNewsAggregation($attrs){
   rcaInit();
-  $attrs = shortcode_atts(array(
-                    'theme' => 'lz-theme-green-red'),
+  $attrs = shortcode_atts(array(),
                     $attrs, 'rcanewsaggregation');
 
   $newsaggregationData = get_news_aggregation_data();
@@ -454,7 +506,7 @@ function add_rca_query_vars( $qvars ) {
 
 function custom_rca_rewrite_rule() {
 
-  add_rewrite_rule('^matches/([0-9]+)/([^/]*)/?','index.php?page_id=$matches[1]&rca_matchkey=$matches[2]','top');
+  add_rewrite_rule('^$base_url/([0-9]+)/([^/]*)/?','index.php?page_id=$matches[1]&rca_matchkey=$matches[2]','top');
 
   $page = get_page_by_title( 'Matches' );
   $pageId = null;
@@ -462,7 +514,7 @@ function custom_rca_rewrite_rule() {
     $pageId = $page->ID;
   }
 
-  add_rewrite_rule('^matches/([^/]*)/?','index.php?page_id='.$pageId.'&rca_matchkey=$matches[1]','top');
+  add_rewrite_rule('^$base_url/([^/]*)/?','index.php?page_id='.$pageId.'&rca_matchkey=$matches[1]','top');
 }
 
 add_action('query_vars', 'add_rca_query_vars');
@@ -481,33 +533,30 @@ add_action('init', 'custom_rca_rewrite_rule', 10, 0);
 * </code>
 *
 */
-
-// Match & Recent Based Shortcodes
 add_shortcode('rcamatch', 'rcaMatch');
-add_shortcode('rcarecentmatch', 'rcaRecentMatch');
 add_shortcode('rcaballbyball', 'rcaBallByBall');
+add_shortcode('rcarecentmatch', 'rcaRecentMatch');
 add_shortcode('rcarecentseason', 'rcaRecentSeason');
-
-// Schedule Based Shortcodes
 add_shortcode('rcaschedule', 'rcaSchedule');
 add_shortcode('rcascheduleseason', 'rcaScheduleSeason');
-
-// Season Based Shortcodes
 add_shortcode('rcaseason', 'rcaSeason');
 add_shortcode('rcaseasonstats', 'rcaSeasonStats');
 add_shortcode('rcaseasonpoints', 'rcaSeasonPoints');
+add_shortcode('rcaseasonteam', 'rcaSeasonTeam');
 add_shortcode('rcaplayerstats', 'rcaPlayerStats');
 add_shortcode('rcaoversummary', 'rcaOverSummary');
-
-// News Feed Shortcodes
 add_shortcode('rcanewsaggregation', 'rcaNewsAggregation');
+
+// Beta Shortcode
+add_shortcode('rcamatchpromo', 'rcaMatchPromo');
 
 
 add_action( 'wp_ajax_rcamatch', 'rcamatch_request' );
 add_action( 'wp_ajax_nopriv_rcamatch', 'rcamatch_request' );
-
 add_action( 'wp_ajax_rcarecentmatch', 'rcarecentmatch_request' );
 add_action( 'wp_ajax_nopriv_rcarecentmatch', 'rcarecentmatch_request' );
+add_action( 'wp_ajax_rcamatchpromo', 'rcamatch_request' );
+add_action( 'wp_ajax_nopriv_rcamatchpromo', 'rcamatch_request' );
 
 wp_register_script('angular', 'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js');
 wp_register_script('angular-animate', 'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js');
@@ -519,19 +568,7 @@ wp_register_style('bootsrap-css', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3
 $plugin_url = plugin_dir_url( __FILE__ );
 wp_register_script('rca-js', $plugin_url. '/views/rca-cricket-angular.js');
 
-// wp_register_style('rca-css', $plugin_url . '/views/rca-cricket_old.css');
 wp_register_style('rca-css', $plugin_url . '/views/rca-cricket.css');
-
-
-function use_less_css() {
-  $plugin_url = plugin_dir_url( __FILE__ );
-  echo '
-    <link rel="stylesheet/less" type="text/css" href="'.$plugin_url.'/less/rca-cricket.less">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.1/less.min.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-  ';
-}
-// add_action( 'wp_head' , 'use_less_css' );
 
 if (is_admin())
   $cricketapi_admin = new CricketApiAdmin();
