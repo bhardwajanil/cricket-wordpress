@@ -2,15 +2,15 @@
 /**
  * @package   Cricket-API
  * @author    CricketAPI Developers
- * @version   1.0.0
+ * @version   2.0.0
  */
 
 /**
-* Plugin Name: Cricket Scorecard from CricketAPI
+* Plugin Name: Cricket Score Widgets from CricketAPI
 * Plugin URI: http://static.litzscore.com/plugins/wordpress/cricket-litzscore
 * Description: Show live cricket score, recent matches and schedules. Litzscore provides live cricket score for ICC, IPL, CL and CPL.
 * Author: CricketAPI Developers
-* Version: 1.0
+* Version: 2.0
 * Author URI: http://cricketapi.com/
 */
 
@@ -32,12 +32,14 @@ function insert_footer_script(){
   wp_enqueue_script('angular-animate');
   wp_enqueue_script('moment');
   wp_enqueue_script('rca-js');
+  wp_enqueue_script('fullcalendar-js');
 }
 
 function insert_header_script(){
-  wp_enqueue_style('roboto-font-css');
-  wp_enqueue_style('bootsrap-css');
+  wp_enqueue_style('lato-font-css');
   wp_enqueue_style('rca-css');
+  wp_enqueue_style('fullcalender-min-css');
+  wp_enqueue_style('fullcalender-print-css');
 }
 
 function insert_script_src() {
@@ -90,11 +92,28 @@ function get_schedule_data(){
   if($ak){
     $schedule_data = getSchedule($ak);
     return $schedule_data;
+    print_r($ak);
   }else{
     setAccessToken();
     $ak = getAccessToken();
     if($ak){
       return get_schedule_data();
+    }else{
+      die('Error while getting season information');
+    }
+  }
+}
+
+function get_schedule_date($date){
+  $ak = getAccessToken();
+  if($ak){
+    $schedule_date = getSchedule($ak, $date);
+    return $schedule_date;
+  }else{
+    setAccessToken();
+    $ak = getAccessToken();
+    if($ak){
+      return get_schedule_date($date);
     }else{
       die('Error while getting season information');
     }
@@ -117,21 +136,7 @@ function get_schedule_season_data($seasonKey){
   }
 }
 
-function get_season_data($seasonKey){
-  $ak = getAccessToken();
-  if($ak){
-    $season = getSeason($ak, $seasonKey, 'micro_card');
-    return $season;
-  }else{
-    setAccessToken();
-    $ak = getAccessToken();
-    if($ak){
-      return get_season_data($seasonKey);
-    }else{
-      die('Error while getting season information');
-    }
-  }
-}
+
 
 function get_season_stats_data($seasonKey){
   $ak = getAccessToken();
@@ -213,6 +218,27 @@ function get_news_aggregation_data(){
   } 
 }
 
+function rcaseason_request(){
+  $ak = getAccessToken();
+  if($ak){
+    $seasonKey = $_REQUEST['key'];
+    $seasonData = getSeason($ak, $seasonKey, 'micro_card');
+    
+    wp_send_json(array('data'=>$seasonData));
+    exit();
+  }else{
+    setAccessToken();
+    $ak = getAccessToken();
+
+    if($ak){
+      rcaseason_request();
+    }else{
+      die('Error while getting season information');
+    }
+
+  }
+}
+
 function rcamatch_request(){
   $ak = getAccessToken();
   if($ak){
@@ -235,10 +261,10 @@ function rcamatch_request(){
 function rcarecentmatch_request(){
   $ak = getAccessToken();
   if($ak){
-    $seasonKey = $_REQUEST['key'];
-    $matchData = getRecentMatch($ak, $seasonKey, 'micro_card');
+    $seasonKey = ($_REQUEST['key']=="null") ? '' : $_REQUEST['key'];
+    $recentMatchData = getRecentMatch($ak, $seasonKey, 'summary_card');
 
-    wp_send_json(array('data'=>$matchData));
+    wp_send_json(array('data'=>$recentMatchData));
     exit();
   }else{
     setAccessToken();
@@ -270,30 +296,51 @@ function rcaMatch($attrs){
   }else{
     $matchKey = get_query_var('rca_matchkey');
   }
-
+  $pageView = "match";
   $nonceValue = wp_create_nonce( 'rcaapiactionsmatch' );
   echo '
-          <div ng-app="rcaCricket">
-            <div class="lz-outter-box '. $attrs['theme'] .'" rca-cricket-match="'.$matchKey.'" sec="'.$nonceValue.'"></div>
-          </div>
-        ';
+        <div ng-app="rcaCricket">
+          <div class="lz-outter-box '. $attrs['theme'] .'" rca-cricket-match='.$matchKey.' sec='.$nonceValue.' page-view='.$pageView.'></div>
+        </div>
+      ';
+}
+
+function rcaSeason($attrs){
+  rcaInit();
+  $attrs = shortcode_atts(array(
+                'key' => 'null',
+                'card_type' =>'micro_card',
+                'theme' => 'lz-theme-green-red',
+                'match_page_id'=>null),
+                $attrs, 'rcaseasons');
+
+  $seasonKey = $attrs['key'];
+  $nonceValue = wp_create_nonce('rcaapiactionsmatch');
+
+  $pageView = "seasonmatches";
+
+  echo '
+        <div ng-app="rcaCricket">
+          <div class="lz-outter-box '. $attrs['theme'] .'" rca-season-matches='.$seasonKey.' sec='.$nonceValue.' page-view='.$pageView.'></div>
+        </div>
+      ';
 }
 
 function rcaRecentMatch($attrs) {
   rcaInit();
   $attrs = shortcode_atts(array(
                 'key' => 'null',
-                'card_type' => 'null',
                 'theme' => 'lz-theme-green-red'),
                 $attrs, 'rcarecentmatch');
 
   $seasonKey = $attrs['key'];
-
   $nonceValue = wp_create_nonce('rcaapiactionsmatch');
+
+  $pageView = "recentmatches";
+
   echo '
         <div ng-app="rcaCricket">
-          <div class="lz-outter-box '. $attrs['theme'] .'" rca-cricket-recent-match="'.$seasonKey.'" sec="'.$nonceValue.'"></div>
-          </div>
+          <div class="lz-outter-box '. $attrs['theme'] .'" rca-recent-matches='.$seasonKey.' sec='.$nonceValue.' page-view='.$pageView.'></div>
         </div>
        ';
 }
@@ -314,15 +361,15 @@ function rcaBallByBall($attrs){
   include_once 'views/rca-cricket-season-test.php';
 }
 
-function rcaRecentSeason($attrs){
+function rcaRecentSeasons($attrs){
   rcaInit();
   $attrs = shortcode_atts(array(
                   'theme' => 'lz-theme-green-red'),
-                  $attrs, 'rcarecentseason');
+                  $attrs, 'rcarecentseasons');
 
-  $recentSeasonData = get_recent_season_data();
+  $recentSeasons =  get_recent_season_data();
 
-  include_once 'views/rca-cricket-season-test.php';
+  include_once 'views/rca-cricket-recent-seasons.php';
 }
 
 function rcaSchedule($attrs){
@@ -333,7 +380,7 @@ function rcaSchedule($attrs){
 
   $scheduleData = get_schedule_data();
 
-  include_once 'views/rca-cricket-season-test.php';
+  include_once 'views/rca-cricket-schedule.php';
 }
 
 function rcaScheduleSeason($attrs){
@@ -348,26 +395,6 @@ function rcaScheduleSeason($attrs){
   $scheduleseasonData = get_schedule_season_data($seasonKey);
 
   include_once 'views/rca-cricket-season-test.php';
-}
-
-function rcaSeason($attrs){
-  rcaInit();
-  $attrs = shortcode_atts(array(
-                'key' => 'null',
-                'card_type' =>'micro_card',
-                'theme' => 'lz-theme-green-red',
-                'match_page_id'=>null),
-                $attrs, 'rcaseasons');
-
-  $seasonKey = $attrs['key'];
-  $seasonData = get_season_data($seasonKey);
-  $matchUrlPrefix = get_site_url().'/matches/';
-
-  if(!is_null($attrs['match_page_id'])){
-    $matchUrlPrefix = $matchUrlPrefix . $attrs['match_page_id'] . '/';
-  }
-
-  include_once 'views/rca-cricket-season.php';
 }
 
 function rcaSeasonStats($attrs){
@@ -486,7 +513,7 @@ add_action('init', 'custom_rca_rewrite_rule', 10, 0);
 add_shortcode('rcamatch', 'rcaMatch');
 add_shortcode('rcarecentmatch', 'rcaRecentMatch');
 add_shortcode('rcaballbyball', 'rcaBallByBall');
-add_shortcode('rcarecentseason', 'rcaRecentSeason');
+add_shortcode('rcarecentseasons', 'rcaRecentSeasons');
 
 // Schedule Based Shortcodes
 add_shortcode('rcaschedule', 'rcaSchedule');
@@ -506,31 +533,35 @@ add_shortcode('rcanewsaggregation', 'rcaNewsAggregation');
 add_action( 'wp_ajax_rcamatch', 'rcamatch_request' );
 add_action( 'wp_ajax_nopriv_rcamatch', 'rcamatch_request' );
 
+add_action( 'wp_ajax_rcaseasons', 'rcaseason_request' );
+add_action( 'wp_ajax_nopriv_rcaseasons', 'rcaseason_request' );
+
 add_action( 'wp_ajax_rcarecentmatch', 'rcarecentmatch_request' );
 add_action( 'wp_ajax_nopriv_rcarecentmatch', 'rcarecentmatch_request' );
 
 wp_register_script('angular', 'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js');
 wp_register_script('angular-animate', 'https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js');
 wp_register_script('moment', 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.3/moment.min.js');
+wp_register_script('fullcalendar-js', 'https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.6.1/fullcalendar.min.js');
 
-wp_register_style('roboto-font-css', 'https://fonts.googleapis.com/css?family=RobotoDraft:300,400,500,700,400italic');
-wp_register_style('bootsrap-css', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css');
+wp_register_style('lato-font-css', 'https://fonts.googleapis.com/css?family=Lato');
+wp_register_style('fullcalender-min-css', 'https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.6.1/fullcalendar.min.css');
+wp_register_style('fullcalender-print-css', 'https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/2.6.1/fullcalendar.print.css');
+// wp_register_style('calender-theme', 'https://s3-ap-southeast-1.amazonaws.com/cricketapi-widgets/css/black_theme.css');
 
 $plugin_url = plugin_dir_url( __FILE__ );
 wp_register_script('rca-js', $plugin_url. '/views/rca-cricket-angular.js');
-
-// wp_register_style('rca-css', $plugin_url . '/views/rca-cricket_old.css');
-wp_register_style('rca-css', $plugin_url . '/views/rca-cricket.css');
+wp_register_style('rca-css', $plugin_url . '/views/themes/greenTheme.css');
 
 
-function use_less_css() {
-  $plugin_url = plugin_dir_url( __FILE__ );
-  echo '
-    <link rel="stylesheet/less" type="text/css" href="'.$plugin_url.'/less/rca-cricket.less">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.1/less.min.js" type="text/javascript"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-  ';
-}
+// function use_less_css() {
+//   $plugin_url = plugin_dir_url( __FILE__ );
+//   echo '
+//     <link rel="stylesheet/less" type="text/css" href="'.$plugin_url.'/less/rca-cricket.less">
+//     <script src="//cdnjs.cloudflare.com/ajax/libs/less.js/2.5.1/less.min.js" type="text/javascript"></script>
+//     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+//   ';
+// }
 // add_action( 'wp_head' , 'use_less_css' );
 
 if (is_admin())

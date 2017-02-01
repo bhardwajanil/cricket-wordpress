@@ -159,7 +159,7 @@ function getRecentMatch($access_token, $season_key, $card_type){
 	* 
 	* Otherwise, it will get the default recent matches information.
 	*/
-	if($season_key != '') {
+	if($season_key != "") {
 		$url = 'season/' .$season_key .'/recent_matches';	
 	} else {
 		$url = 'recent_matches';
