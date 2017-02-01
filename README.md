@@ -3,19 +3,9 @@ Cricket plugin for wordpress using Cricket API.  Easy to install and comes with 
 
 Available wordpress shortcodes are,
 * `[rcamatch key="matchkey"]`
-* `[rcarecentmatch]`
 * `[rcarecentmatch key="seasonkey"]`
 * `[rcaseason key="seasonkey"]`
-* `[rcaballbyball matchkey="matchkey" overkey="overkey"]`
 * `[rcarecentseason]`
-* `[rcaschedule]`
-* `[rcascheduleseason key="seasonkey"]`
-* `[rcaseasonstats key="seasonkey"]`
-* `[rcaseasonpoints key="seasonkey"]`
-* `[rcaplayerstats seasonkey="seasonkey" playerkey="playerkey"]`
-* `[rcaoversummary key="matchkey"]`
-* `[rcanewsaggregation]`
-
 
 
 ## Get Started
