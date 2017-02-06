@@ -1,0 +1,28 @@
+<div class="rca-container rca-margin">
+
+  <div class="row animate-show" ng-show="dataStatus == 'loading'">
+    <div class="col-md-12">
+      <div class="lz-loading">
+        <p>Loading season matches...</p>
+      </div>
+    </div> 
+  </div>
+
+  <div class="row animate-show" ng-show="dataStatus == 'error'">
+    <div class="col-md-12">
+      <div class="lz-data-error">
+        <p>Oops! Something went wrong!</p>
+      </div>
+    </div>
+  </div>  
+
+  <div class="rca-row" ng-show="dataStatus == 'ready'">
+    <div ng-app="rcaCricket">
+      <div ng-repeat="key in season.keys">
+        <a href="/index.php/{{season.keys[$index]}}">
+          <div class="lz-outter-box" rca-cricket-match="{{season.keys[$index]}}" page-view="seasonmatches"></div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

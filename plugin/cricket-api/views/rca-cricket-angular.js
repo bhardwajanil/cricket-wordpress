@@ -154,7 +154,7 @@ app.directive('rcaCricketMatch', function(rcaAPI){
               match.allInnings[k].teamKey = b[0];
               match.allInnings[k].inningsNumber = b[1];
             }
-        } else if(match.batting_order != undefined && match.now.batting_team != null) {
+        } else if(match.batting_order != "" && match.now.batting_team != "") {
             var ki = match.now.batting_team + '_' + match.now.innings;
             match.allInnings[ki] = match.innings[ki];
             match.allInnings[ki].teamKey = match.now.batting_team;
@@ -223,7 +223,7 @@ app.directive('rcaCricketMatch', function(rcaAPI){
 
 
         // Code the balltype
-        if( (match.status == "started") && (match.now.recent_overs_str != null) ) {
+        if( (match.status == "started") && (match.now.recent_overs_str != "") ) {
           match.balltypes = {};
           for (var i = match.now.recent_overs_str[0][1].length-1; i >= 0; i--) {
             match.balltypes[i] = match.now.recent_overs_str[0][1][i];
@@ -277,7 +277,7 @@ app.directive('rcaCricketMatch', function(rcaAPI){
         $scope.ballComment = $sce.trustAsHtml(match.now.last_ball.comment);
 
         //Required Score string
-        if(match.now.req) {
+        if(match.now.req.length > 0) {
           match.RequiredScoreStr = "Required "+match.now.req.runs+" runs in "+match.now.req.balls+" balls";  
         }        
 
@@ -352,13 +352,22 @@ app.directive('rcaSeasonMatches', function(rcaAPI){
       $scope.season = null;
       $scope.appConfig = appConfig;
 
+
       function onSeasonUpdate(season){
         $scope.season = season;
 
-        $scope.dataStatus = 'ready';          
-        D = season;
-        console.log(D);
+        season.keys = {};
+        // season.keys_startdate = {};
+        var i=0;
+        for(var keyName in season.matches){
+          // season.keys_startdate[i]  = season.matches[keyName].start_date.iso;
+          season.keys[i]  = season.matches[keyName].key;
+          i++;
+        }
 
+        $scope.dataStatus = 'ready';          
+        // D = season;
+        // console.log(D);
 
         $timeout(function(){
           rcaAPI.getSeason($scope.rcaSeasonMatches, 
@@ -404,8 +413,8 @@ app.directive('rcaRecentMatches', function(rcaAPI){
         }
 
         $scope.dataStatus = 'ready';          
-        D = recent;
-        console.log(D);
+        // D = recent;
+        // console.log(D);
 
         for (var i = 0; i < recent.length; i++) {
           if(recent[i].status == "started") {
@@ -415,8 +424,6 @@ app.directive('rcaRecentMatches', function(rcaAPI){
             }, 500 * 1);                
           }
         }
-        
-        
       }
 
       rcaAPI.getRecentMatch($scope.rcaRecentMatches, $scope.sec).then(
@@ -428,7 +435,6 @@ app.directive('rcaRecentMatches', function(rcaAPI){
     }
   }
 });
-
 
 
 function showTab(event) {
