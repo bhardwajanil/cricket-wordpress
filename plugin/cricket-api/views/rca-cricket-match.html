@@ -18,7 +18,7 @@
 
   <div class="rca-row" ng-show="dataStatus == 'ready'">
     
-    <div class="rca-column-6">
+    <div ng-class="pageView == 'match' ? 'rca-column-custom' : 'rca-column-6'">
 
       <div class="rca-medium-widget rca-padding {{ (match.status == 'started') ? 'rca-live-season' : 'rca-completed'}} rca-top-border">
         

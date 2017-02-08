@@ -81,6 +81,10 @@ button {
 .rca-column-6 {
   width: 50%; }
 
+.rca-column-custom {
+  width: 350px;
+}
+
 .rca-column-5 {
   width: 41.66666667%; }
 

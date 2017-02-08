@@ -552,14 +552,14 @@
 	},
 	"expanded_folders":
 	[
-		"/home/sai-roanuz/projects/cricket-wordpress",
-		"/home/sai-roanuz/projects/cricket-wordpress/release"
+		"/home/sai-roanuz/projects/cricket-wordpress"
 	],
 	"file_history":
 	[
+		"/home/sai-roanuz/projects/cricket-wordpress/scripts/make-plugin",
+		"/home/sai-roanuz/projects/cricket-wordpress/.gitignore",
 		"/home/sai-roanuz/projects/cricket-wordpress/asserts/js/rca-cricket-angular.js",
 		"/home/sai-roanuz/projects/cricket-wordpress/asserts/views/rca-cricket-season-matches.html",
-		"/home/sai-roanuz/projects/cricket-wordpress/scripts/make-plugin",
 		"/home/sai-roanuz/projects/cricketapiwp/wp-content/plugins/cricket-api/views/rca-cricket-angular.js",
 		"/home/sai-roanuz/projects/cricketapiwp/wp-content/plugins/cricket-api/views/rca-cricket-season-matches.html",
 		"/home/sai-roanuz/projects/cricketapiwp/wp-content/plugins/cricket-api/views/rca-cricket-match.html",
@@ -1317,7 +1317,7 @@
 	"show_open_files": true,
 	"show_tabs": true,
 	"side_bar_visible": true,
-	"side_bar_width": 324.0,
+	"side_bar_width": 257.0,
 	"status_bar_visible": true,
 	"template_settings":
 	{
