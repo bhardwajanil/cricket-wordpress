@@ -81,10 +81,6 @@ button {
 .rca-column-6 {
   width: 50%; }
 
-.rca-column-custom {
-  width: 350px;
-}
-
 .rca-column-5 {
   width: 41.66666667%; }
 
@@ -378,8 +374,6 @@ button {
       background-color: #d91e18; }
     .rca-ball-by li.b4, .rca-ball-by li.b6 {
       background-color: #1eb848; }
-    .rca-ball-by li.wd {
-      background-color: #000; }
 
 .rca-bowler-info {
   color: #b3b3b3;
@@ -850,3 +844,20 @@ button {
   text-align: left;
   padding: 2px 5px;
   font-size: 13px; }
+
+.rca-micro-widget.rca-top-border, .rca-mini-widget.rca-top-border, .rca-medium-widget.rca-top-border {
+  border-bottom: 1px solid #e0e0e0;
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.07); }
+
+  .widget-area .full-match-widget.rca-column-6{
+    width: 100%;
+  }
+  .widget-area .full-match-widget .rca-medium-widget{
+    min-width: 300px;
+  }
+  .widget-area .full-match-widget.rca-column-6 .rca-teams{
+    font-size: 16px;
+    padding: 0;
+  }

@@ -17,10 +17,9 @@
   </div>  
 
   <div class="rca-row" ng-show="dataStatus == 'ready'">
-    
-    <div ng-class="pageView == 'match' ? 'rca-column-custom' : 'rca-column-6'">
+    <div  class="rca-column-6 full-match-widget">
 
-      <div class="rca-medium-widget rca-padding {{ (match.status == 'started') ? 'rca-live-season' : 'rca-completed'}} rca-top-border">
+      <div class="rca-padding {{ (match.status == 'started') ? 'rca-live-season' : 'rca-completed'}} rca-top-border"  ng-class="pageView == 'match' ? 'rca-mini-widget' : 'rca-medium-widget'">
         
         <div class="rca-right rca-basic-text" ng-hide="match.status == 'started'" ng-bind="match.start_date.show_date"></div>
         <div class="rca-clear"></div>
@@ -183,7 +182,7 @@
       </div>
     </div>
 
-    <div class="rca-column-6" ng-if="pageView == 'match'">
+    <div class="rca-column-6 full-match-widget" ng-if="pageView == 'match'">
       <div class="rca-medium-widget rca-top-border">
         <ul class="rca-tab-list">
           <li class="rca-tab-link active" 
