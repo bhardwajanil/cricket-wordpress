@@ -853,6 +853,7 @@ button {
 
   .widget-area .full-match-widget.rca-column-6{
     width: 100%;
+    padding: 0;
   }
   .widget-area .full-match-widget .rca-medium-widget{
     min-width: 300px;
