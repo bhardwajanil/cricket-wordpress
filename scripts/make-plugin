@@ -3,7 +3,7 @@ cd ../asserts
 
 echo "Copying files"
 cp css/rca-cricket.css ../plugin/cricket-api/views/
-cp css/themes/*  ../plugin/cricket-api/views/themes/
+cp -r css/themes  ../plugin/cricket-api/views/
 cp js/rca-cricket-angular.js ../plugin/cricket-api/views/
 cp views/*	../plugin/cricket-api/views/
 

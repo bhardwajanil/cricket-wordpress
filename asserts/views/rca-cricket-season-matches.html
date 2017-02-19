@@ -1,1 +1,114 @@
-/home/sai-roanuz/projects/cricketapiwp/wp-content/plugins/cricket-api/views/rca-cricket-season-matches.html
+<div class="rca-container rca-margin">
+
+  <div class="row animate-show" ng-show="dataStatus == 'loading'">
+    <div class="col-md-12">
+      <div class="lz-loading">
+        <p>Loading season matches...</p>
+      </div>
+    </div> 
+  </div>
+
+  <div class="row animate-show" ng-show="dataStatus == 'error'">
+    <div class="col-md-12">
+      <div class="lz-data-error">
+        <p>Oops! Something went wrong!</p>
+      </div>
+    </div>
+  </div>  
+
+  <div class="rca-row" ng-show="dataStatus == 'ready'">
+    <div ng-app="rcaCricket">
+      <div ng-repeat="match in season.allMatches">
+
+        <div ng-if="season.allMatches[$index].status == 'notstarted' || season.allMatches[$index].status == 'completed'">
+          <a href="/index.php/matches/{{season.allMatches[$index].key}}">
+            <div class="rca-column-6">
+              <div class="rca-medium-widget rca-padding rca-completed rca-top-border">
+          
+                <div class="rca-right rca-basic-text" ng-bind="season.allMatches[$index].start_date.show_date"></div>
+                <div class="rca-clear"></div>
+
+                <div class="rca-padding">
+                  <!--Not yet started matches-->
+                  <div ng-if="season.allMatches[$index].status == 'notstarted'">
+                    <h3 class="rca-match-title rca-theme-text">
+                      <span ng-bind="season.allMatches[$index].teams.a.key | uppercase"></span> VS <span ng-bind="season.allMatches[$index].teams.b.key | uppercase"></span>
+                    </h3>
+                  
+                    <p class="rca-match-info">
+                      <span>{{season.allMatches[$index].format | uppercase}} - {{season.allMatches[$index].related_name}}</span>
+                    </p>
+
+                    <div class="rca-top-padding">
+                      <div class="rca-teams rca-table">
+                        <span class="team rca-cell" ng-bind="season.allMatches[$index].teams.a.name"></span>
+                        <span class="rca-vs rca-cell"></span>
+                        <span class="team rca-cell" ng-bind="season.allMatches[$index].teams.b.name"></span>
+                      </div>
+                    </div>
+
+                    <div class="rca-match-start">
+                      <h3>Starts in</h3>
+                      <div class="rca-padding">
+                        <h2>{{season.allMatches[$index].start_date.starts_in}}</h2>                  
+                        <p class="rca-center">{{season.allMatches[$index].start_date.show_cal}} (local time)</p>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <!--Already completed matches-->
+                  <div ng-if="season.allMatches[$index].status == 'completed'">
+                    <h3 class="rca-match-title rca-theme-text">
+                      {{season.allMatches[$index].msgs.completed}}
+                    </h3>
+
+                    <p class="rca-match-info">
+                      <span>{{season.allMatches[$index].format | uppercase}} - {{season.allMatches[$index].related_name}}</span>
+                    </p>
+
+                    <div class="rca-top-padding">
+                      <div class="rca-team-score">
+                        <span class="team">{{season.allMatches[$index].teams.a.name}}</span>
+                        <span>{{season.allMatches[$index].innings['a_'+season.allMatches[$index].now.innings].run_str}}</span>
+                      </div>
+
+                      <div class="rca-team-score">
+                        <span class="team">{{season.allMatches[$index].teams.b.name}}</span>
+                        <span>{{season.allMatches[$index].innings['b_'+season.allMatches[$index].now.innings].run_str}}</span>
+                      </div>
+                    </div>
+
+                    <div class="rca-man-match" ng-if="season.allMatches[$index].man_of_match">
+                      <h3>Man of the Match <span>{{season.allMatches[$index].players[season.allMatches[$index].man_of_match].fullname}}</span></h3>
+                      <div class="rca-padding">
+                        <p class="rca-man-match-record">
+                          <span class="title">Runs</span><span>{{season.allMatches[$index].players[season.allMatches[$index].man_of_match].match.innings[season.allMatches[$index].now.innings].batting.runs || "Nil"}}</span>
+                        </p>
+                        <p class="rca-man-match-record">
+                          <span class="title">Boundries</span><span>{{season.allMatches[$index].players[season.allMatches[$index].man_of_match].match.innings[season.allMatches[$index].now.innings].batting.fours+"x4, "}}{{season.allMatches[$index].players[season.allMatches[$index].man_of_match].match.innings[season.allMatches[$index].now.innings].batting.sixes+"x6"}}</span>
+                        </p>
+                        <p class="rca-man-match-record">
+                          <span class="title">Wickets</span><span>{{season.allMatches[$index].players[season.allMatches[$index].man_of_match].match.innings[season.allMatches[$index].now.innings].bowling.wickets || "Nil"}}</span>
+                        </p>
+                      </div>
+                    </div>
+                  </div>  
+                </div> 
+              </div>
+            </div>
+          </a>
+        </div>
+        
+
+        <!--Started matches-->
+        <div ng-if="season.allMatches[$index].status == 'started'">
+          <a href="/index.php/matches/{{season.allMatches[$index].key}}">
+            <div class="lz-outter-box" rca-cricket-match="{{season.allMatches[$index].key}}" page-view="seasonmatches"></div>
+          </a>
+        </div>        
+
+      </div>
+    </div>
+  </div>
+</div>

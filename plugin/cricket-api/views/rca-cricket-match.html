@@ -60,6 +60,7 @@
                 {{match.teams[match.now.batting_team].key | uppercase}} : 
                 {{match.innings[match.now.batting_team + '_'+match.now.innings].runs}}/{{match.innings[match.now.batting_team + '_'+match.now.innings].wickets}} in {{match.innings[match.now.batting_team + '_'+match.now.innings].overs}}
               </h3>
+              <span>{{match.Msgs}}</span>
               <p class="rca-match-info">{{match.RequiredScoreStr}}</p>
               <p class="rca-match-info">
                 <span>CRR:{{match.now.run_rate}}</span>
@@ -99,7 +100,7 @@
                                                 (ball=='4'?'b6': 
                                                 (ball=='w'?'w':
                                                 (ball=='1 wd'?'wd':
-                                                (ball=='1 lb'?'wd':''))))" ng-repeat="ball in match.balltypes">
+                                                (ball=='1 lb'?'lb':''))))" ng-repeat="ball in match.balltypes">
                       {{ball}}
                     </li>
                   </ul>
