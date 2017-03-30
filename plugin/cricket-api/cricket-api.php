@@ -463,7 +463,7 @@ function rcaNewsAggregation($attrs){
 
   $newsaggregationData = get_news_aggregation_data();
 
-  include_once 'views/rca-cricket-season-test.php';
+  include_once 'views/rca-cricket-news-aggregation.php';
 }
 
 function rcaGetTeamLogoUrl($key){

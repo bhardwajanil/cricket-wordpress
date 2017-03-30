@@ -5,7 +5,8 @@ Available wordpress cricket shortcodes are,
 * `[rcamatch key="matchkey"]`
 * `[rcarecentmatch key="seasonkey"]`
 * `[rcaseason key="seasonkey"]`
-* `[rcarecentseason]`
+* `[rcarecentseasons]`
+* `[rcanewsaggregation]`
 
 ## Get Started
 1. Download and Install the Wordpress Plugin from `release` directory.
