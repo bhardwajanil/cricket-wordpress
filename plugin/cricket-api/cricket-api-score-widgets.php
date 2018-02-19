@@ -217,7 +217,7 @@ class RecentSeasons_Widget extends WP_Widget {
         );
     }
 
-    public function widget($args) {    
+    public function widget($args, $instance) {    
         extract( $args );
 
         $shortcode = '[rcarecentseasons]';
