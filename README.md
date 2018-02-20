@@ -17,6 +17,9 @@ Available wordpress cricket shortcodes are,
 ## Current Version
 2.0.0
 
+## New Feature
+`[rcanewsaggregation]` shortcode is now available as Widget. Just, Drag & Drop!
+
 ## Upcoming Wordpress Cricket Shortcodes
 * `Season Stats`
 * `Cricket Schedules`
