@@ -1,25 +1,22 @@
 <?php
 /**
- * @package   Cricket-API
+ * @package   Roanuz-Cricket-API
  * @author    CricketAPI Developers
  * @version   2.0.0
  */
 
 /**
- * Plugin Name: Cricket API Widget
+ * Plugin Name: Roanuz Cricket API Widget
  * Description: This is a widget to show Cricket Scores which are provided by Cricket API.
  * Author: CricketAPI Developers
  * Version: 2.0.0
  * Author URI: https://www.cricketapi.com/
  */
 
-
-
 /**
  *   Widget : RCA Match Card
  */
 class MatchData_Widget extends WP_Widget {
-
     /* Naming the widget */
     public function __construct() {
 
@@ -58,8 +55,7 @@ class MatchData_Widget extends WP_Widget {
         }
 
     /* Admin Widget Form */
-    public function form( $instance ) {    
-
+    public function form( $instance ) {
         /**
         * Input Variables
         */
@@ -75,8 +71,6 @@ class MatchData_Widget extends WP_Widget {
         <?php 
         }
 }
-
-
 
 /**
  *   Widget Name : RCA Recent Matches
@@ -227,9 +221,32 @@ class RecentSeasons_Widget extends WP_Widget {
     
 }
 
+/**
+*  Widget Nname : News Aggregation
+*/
+class NewsAggregation_Widget extends WP_Widget
+{
+    
+    public function __construct()
+    {
+        parent::__construct(
+            'newsaggregation_widget',
+            __( 'RCA: News Aggregation', 'wp_widget_plugin'),
+            array(
+                'classname' =>  'newsaggregation_widget',
+                'description' => __( 'Provides Cricket News Feed from Popular RSS.' )
+            )
+        );
+    }
 
+    public function widget($args, $instance)
+    {
+        extract($args);
 
-
+        $shortcode = '[rcanewsaggregation]';
+        do_shortcode($shortcode);
+    }
+}
 
 /* Register the widgets */
 function rca_widgets_register() {
@@ -237,6 +254,7 @@ function rca_widgets_register() {
     register_widget('RecentMatchesData_Widget');
     register_widget('SeasonData_Widget');
     register_widget('RecentSeasons_Widget');
+    register_widget('NewsAggregation_Widget');
 }
 
 add_action( 'widgets_init', 'rca_widgets_register' );

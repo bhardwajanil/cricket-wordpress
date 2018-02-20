@@ -1,12 +1,12 @@
 <?php
 /**
- * @package   Cricket-API
+ * @package   Roanuz-Cricket-API
  * @author    CricketAPI Developers
  * @version   2.0.0
  */
 
 /**
- * Plugin Name: Cricket API Scores Plugin
+ * Plugin Name: Roanuz Cricket API Scores Plugin
  * Plugin URI: https://github.com/roanuz/cricket-wordpress
  * Description:  This plugin provides Live Cricket scores, Recent matches, Season based matches, Cricket Schedules, etc from Cricket API. It also provides live cricket scores for ICC, IPL, CL and CPL.
  * Author: CricketAPI Developers

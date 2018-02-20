@@ -1,4 +1,5 @@
 <?php
+
 class CricketApiAdmin{
 
   private $fields = array(
@@ -21,7 +22,7 @@ class CricketApiAdmin{
     {
         // This page will be under "Settings"
         add_options_page(
-            'Settings Admin', 
+            'Cricket API Settings > Admin', 
             'Cricket API', 
             'manage_options', 
             'cricketapi-setting-admin', 
@@ -114,7 +115,7 @@ class CricketApiAdmin{
     {
       $name = $args[0];
         printf(
-            '<input type="text" id="'.$name.'" name="cricketapi_app_options_info['.$name.']" value="%s" />',
+            '<input type="text" id="'.$name.'" name="cricketapi_app_options_info['.$name.']" value="%s" required="required"/>',
             isset( $this->options[$name] ) ? esc_attr( $this->options[$name]) : ''
         );
     }
