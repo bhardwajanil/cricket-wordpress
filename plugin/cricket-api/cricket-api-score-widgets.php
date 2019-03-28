@@ -2,7 +2,7 @@
 /**
  * @package   Roanuz-Cricket-API
  * @author    CricketAPI Developers
- * @version   2.0.0
+ * @version   2.0.1
  */
 
 /**
@@ -16,24 +16,27 @@
 /**
  *   Widget : RCA Match Card
  */
-class MatchData_Widget extends WP_Widget {
+class MatchData_Widget extends WP_Widget
+{
     /* Naming the widget */
-    public function __construct() {
+    public function __construct()
+    {
 
             parent::__construct(
                 'matchdata_widget',
-                __( 'RCA: Match Card', 'wp_widget_plugin' ),
+                __('RCA: Match Card', 'wp_widget_plugin'),
                 array(
                     'classname'   => 'matchdata_widget',
-                    'description' => __( 'Provides the full details of a match.' )
+                    'description' => __('Provides the full details of a match.')
                     )
             );
-        }
+    }
 
     /* Frontend Display */
-    public function widget( $args, $instance ) {    
+    public function widget($args, $instance)
+    {
              
-            extract( $args );
+            extract($args);
              
             /* Get the season key */
             $matchkey      = $instance['matchkey'];
@@ -41,25 +44,27 @@ class MatchData_Widget extends WP_Widget {
             /* Make shortcode */
             $shortcode = '[rcamatch key="'.$matchkey.'"]';
 
-            if ( $matchkey ) {
-                do_shortcode( $shortcode );
-            }     
+        if ($matchkey) {
+            do_shortcode($shortcode);
         }
+    }
 
-    public function update( $new_instance, $old_instance ) {        
+    public function update($new_instance, $old_instance)
+    {
              
         $instance = $old_instance;
              
-        $instance['matchkey'] = strip_tags( $new_instance['matchkey'] );
-        return $instance;     
-        }
+        $instance['matchkey'] = strip_tags($new_instance['matchkey']);
+        return $instance;
+    }
 
     /* Admin Widget Form */
-    public function form( $instance ) {
+    public function form($instance)
+    {
         /**
         * Input Variables
         */
-        $matchkey = esc_attr( $instance['matchkey'] );
+        $matchkey = esc_attr($instance['matchkey']);
         ?>
 
         <!-- Form Content -->
@@ -68,35 +73,39 @@ class MatchData_Widget extends WP_Widget {
             <input class="widefat" id="<?php echo $this->get_field_id('matchkey'); ?>" name="<?php echo $this->get_field_name('matchkey'); ?>" type="text" value="<?php echo $matchkey; ?>" />
         </p> 
 
-        <?php 
-        }
+        <?php
+    }
 }
 
 /**
  *   Widget Name : RCA Recent Matches
  */
-class RecentMatchesData_Widget extends WP_Widget {
+class RecentMatchesData_Widget extends WP_Widget
+{
 
     /* Naming the widget */
-    public function __construct() {
+    public function __construct()
+    {
 
             parent::__construct(
                 'recentmatchesdata_widget',
-                __( 'RCA: Recent Matches', 'wp_widget_plugin' ),
+                __('RCA: Recent Matches', 'wp_widget_plugin'),
                 array(
                     'classname'   => 'recentmatchesdata_widget',
-                    'description' => __( 'Provides recent matches data.' )
+                    'description' => __('Provides recent matches data.')
                     )
             );
-        }
+    }
 
     /* Admin Widget Form */
-    public function form( $instance ) {    
+    public function form($instance)
+    {
 
         /**
         * Input Variables
         */
-        $seasonkey = esc_attr( $instance['seasonkey'] );
+        $seasonkey = esc_attr($instance['seasonkey']);
+        $prefix_url = esc_attr($instance['prefix_url']);
         ?>
 
         <!-- Form Content -->
@@ -104,31 +113,39 @@ class RecentMatchesData_Widget extends WP_Widget {
             <label for="<?php echo $this->get_field_id('seasonkey'); ?>"><?php _e('Enter Season Key [Optional]:'); ?></label> 
             <input class="widefat" id="<?php echo $this->get_field_id('seasonkey'); ?>" name="<?php echo $this->get_field_name('seasonkey'); ?>" type="text" value="<?php echo $seasonkey; ?>" />
         </p> 
+        <p>
+            <label for="<?php echo $this->get_field_id('prefix_url'); ?>"><?php _e('Enter Prefix URL [Optional]:'); ?></label> 
+            <input class="widefat" id="<?php echo $this->get_field_id('prefix_url'); ?>" name="<?php echo $this->get_field_name('prefix_url'); ?>" type="text" value="<?php echo $prefix_url; ?>" />
+        </p> 
 
         <?php
-        }
+    }
 
-    public function update( $new_instance, $old_instance ) {        
+    public function update($new_instance, $old_instance)
+    {
              
         $instance = $old_instance;
              
-        $instance['seasonkey'] = strip_tags( $new_instance['seasonkey'] );
-        return $instance;     
-        }
+        $instance['seasonkey'] = strip_tags($new_instance['seasonkey']);
+        $instance['prefix_url'] = strip_tags($new_instance['prefix_url']);
+        return $instance;
+    }
 
     /* Frontend Display */
-    public function widget( $args, $instance ) {    
+    public function widget($args, $instance)
+    {
              
-            extract( $args );
+            extract($args);
              
             /* Get the season key */
             $seasonkey      = empty($instance['seasonkey']) ? 'null' : $instance['seasonkey'];
+            $prefix_url      = empty($instance['prefix_url']) ? 'null' : $instance['prefix_url'];
 
             /* Make shortcode */
-            $shortcode = '[rcarecentmatch key="'.$seasonkey.'"]';
+            $shortcode = '[rcarecentmatch key="'.$seasonkey.'" prefix_url="'.$prefix_url.'"]';
 
-            do_shortcode( $shortcode );
-        }    
+            do_shortcode($shortcode);
+    }
 }
 
 
@@ -136,25 +153,28 @@ class RecentMatchesData_Widget extends WP_Widget {
 /**
  *   Widget Name : RCA Season Matches
  */
-class SeasonData_Widget extends WP_Widget {
+class SeasonData_Widget extends WP_Widget
+{
 
     /* Naming the widget */
-    public function __construct() {
+    public function __construct()
+    {
 
             parent::__construct(
                 'seasondata_widget',
-                __( 'RCA: Season Data', 'wp_widget_plugin' ),
+                __('RCA: Season Data', 'wp_widget_plugin'),
                 array(
                     'classname'   => 'seasondata_widget',
-                    'description' => __( 'Provides all match cards in a season.' )
+                    'description' => __('Provides all match cards in a season.')
                     )
             );
-        }
+    }
 
     /* Frontend Display */
-    public function widget( $args, $instance ) {    
+    public function widget($args, $instance)
+    {
              
-            extract( $args );
+            extract($args);
              
             /* Get the season key */
             $seasonkey      = $instance['seasonkey'];
@@ -162,26 +182,28 @@ class SeasonData_Widget extends WP_Widget {
             /* Make shortcode */
             $shortcode = '[rcaseason key="'.$seasonkey.'"]';
 
-            if ( $seasonkey ) {
-                do_shortcode( $shortcode );
-            }     
+        if ($seasonkey) {
+            do_shortcode($shortcode);
         }
+    }
 
-    public function update( $new_instance, $old_instance ) {        
+    public function update($new_instance, $old_instance)
+    {
              
         $instance = $old_instance;
              
-        $instance['seasonkey'] = strip_tags( $new_instance['seasonkey'] );
-        return $instance;     
-        }
+        $instance['seasonkey'] = strip_tags($new_instance['seasonkey']);
+        return $instance;
+    }
 
     /* Admin Widget Form */
-    public function form( $instance ) {    
+    public function form($instance)
+    {
 
         /**
         * Input Variables
         */
-        $seasonkey = esc_attr( $instance['seasonkey'] );
+        $seasonkey = esc_attr($instance['seasonkey']);
         ?>
 
         <!-- Form Content -->
@@ -190,8 +212,8 @@ class SeasonData_Widget extends WP_Widget {
             <input class="widefat" id="<?php echo $this->get_field_id('seasonkey'); ?>" name="<?php echo $this->get_field_name('seasonkey'); ?>" type="text" value="<?php echo $seasonkey; ?>" />
         </p> 
 
-        <?php 
-        }
+        <?php
+    }
 }
 
 
@@ -199,26 +221,27 @@ class SeasonData_Widget extends WP_Widget {
 /**
  *   Widget Name : Recent Seasons
  */
-class RecentSeasons_Widget extends WP_Widget {
-    public function __construct() {
+class RecentSeasons_Widget extends WP_Widget
+{
+    public function __construct()
+    {
         parent::__construct(
             'recentseasons_widget',
-            __( 'RCA: Recent Seasons', 'wp_widget_plugin' ),
+            __('RCA: Recent Seasons', 'wp_widget_plugin'),
             array(
                 'classname'   => 'recentseasons_widget',
-                'description' => __( 'Provides list of all recent seasons.' )
+                'description' => __('Provides list of all recent seasons.')
                 )
         );
     }
 
-    public function widget($args, $instance) {    
-        extract( $args );
+    public function widget($args, $instance)
+    {
+        extract($args);
 
         $shortcode = '[rcarecentseasons]';
-        do_shortcode( $shortcode );    
- 
+        do_shortcode($shortcode);
     }
-    
 }
 
 /**
@@ -231,10 +254,10 @@ class NewsAggregation_Widget extends WP_Widget
     {
         parent::__construct(
             'newsaggregation_widget',
-            __( 'RCA: News Aggregation', 'wp_widget_plugin'),
+            __('RCA: News Aggregation', 'wp_widget_plugin'),
             array(
                 'classname' =>  'newsaggregation_widget',
-                'description' => __( 'Provides Cricket News Feed from Popular RSS.' )
+                'description' => __('Provides Cricket News Feed from Popular RSS.')
             )
         );
     }
@@ -249,7 +272,8 @@ class NewsAggregation_Widget extends WP_Widget
 }
 
 /* Register the widgets */
-function rca_widgets_register() {
+function rca_widgets_register()
+{
     register_widget('MatchData_Widget');
     register_widget('RecentMatchesData_Widget');
     register_widget('SeasonData_Widget');
@@ -257,4 +281,4 @@ function rca_widgets_register() {
     register_widget('NewsAggregation_Widget');
 }
 
-add_action( 'widgets_init', 'rca_widgets_register' );
+add_action('widgets_init', 'rca_widgets_register');

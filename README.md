@@ -15,9 +15,12 @@ Available wordpress cricket shortcodes are,
 4. Goto any page and use shortcode to show match widget. For example `[rcamatch key="iplt20_2013_g30"]`
 
 ## Current Version
-2.0.0
+2.0.1
 
-## New Feature
+1. Now, you can add a Prefix URL inside Recent Matches widget.
+2. Few issues fixed in the Core functionality.
+
+2.0.0
 `[rcanewsaggregation]` shortcode is now available as Widget. Just, Drag & Drop!
 
 ## Upcoming Wordpress Cricket Shortcodes
