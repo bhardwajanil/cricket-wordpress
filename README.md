@@ -19,6 +19,7 @@ Available wordpress cricket shortcodes are,
 
 1. Now, you can add a Prefix URL inside Recent Matches widget.
 2. Few issues fixed in the Core functionality.
+3. Recent Matches will be appeared in an Intelligent Order. i.e., Live Matches will be shown first.
 
 2.0.0
 `[rcanewsaggregation]` shortcode is now available as Widget. Just, Drag & Drop!
