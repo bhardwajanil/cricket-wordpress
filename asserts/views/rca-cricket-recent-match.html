@@ -18,7 +18,7 @@
 
   <div class="rca-row" ng-show="dataStatus == 'ready'">
     <div ng-app="rcaCricket">
-      <div ng-repeat="matchkey in recent.matchKeys">
+      <div ng-repeat="matchkey in recent">
         <a href="/index.php/{{matchkey}}">
           <div class="lz-outter-box" rca-cricket-match="{{matchkey}}" page-view="recentmatches"></div>
         </a>

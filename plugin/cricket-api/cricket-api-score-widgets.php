@@ -105,29 +105,20 @@ class RecentMatchesData_Widget extends WP_Widget
         * Input Variables
         */
         $seasonkey = esc_attr($instance['seasonkey']);
-        $prefix_url = esc_attr($instance['prefix_url']);
         ?>
 
         <!-- Form Content -->
         <p>
             <label for="<?php echo $this->get_field_id('seasonkey'); ?>"><?php _e('Enter Season Key [Optional]:'); ?></label> 
             <input class="widefat" id="<?php echo $this->get_field_id('seasonkey'); ?>" name="<?php echo $this->get_field_name('seasonkey'); ?>" type="text" value="<?php echo $seasonkey; ?>" />
-        </p> 
-        <p>
-            <label for="<?php echo $this->get_field_id('prefix_url'); ?>"><?php _e('Enter Prefix URL [Optional]:'); ?></label> 
-            <input class="widefat" id="<?php echo $this->get_field_id('prefix_url'); ?>" name="<?php echo $this->get_field_name('prefix_url'); ?>" type="text" value="<?php echo $prefix_url; ?>" />
-        </p> 
-
+        </p>
         <?php
     }
 
     public function update($new_instance, $old_instance)
     {
-             
         $instance = $old_instance;
-             
         $instance['seasonkey'] = strip_tags($new_instance['seasonkey']);
-        $instance['prefix_url'] = strip_tags($new_instance['prefix_url']);
         return $instance;
     }
 
@@ -139,10 +130,9 @@ class RecentMatchesData_Widget extends WP_Widget
              
             /* Get the season key */
             $seasonkey      = empty($instance['seasonkey']) ? 'null' : $instance['seasonkey'];
-            $prefix_url      = empty($instance['prefix_url']) ? 'null' : $instance['prefix_url'];
 
             /* Make shortcode */
-            $shortcode = '[rcarecentmatch key="'.$seasonkey.'" prefix_url="'.$prefix_url.'"]';
+            $shortcode = '[rcarecentmatch key="'.$seasonkey.'"]';
 
             do_shortcode($shortcode);
     }

@@ -356,7 +356,6 @@ function rcaRecentMatch($attrs)
     $attrs = shortcode_atts(
         array(
                 'key' => 'null',
-                'prefix_url' => 'null',
                 'theme' => 'lz-theme-green-red'),
         $attrs,
         'rcarecentmatch'
@@ -364,7 +363,6 @@ function rcaRecentMatch($attrs)
 
   
     $seasonKey = $attrs['key'];
-    $prefixUrl = $attrs['prefix_url'];
   
     $nonceValue = wp_create_nonce('rcaapiactionsmatch');
 
@@ -372,7 +370,7 @@ function rcaRecentMatch($attrs)
 
     echo '
         <div ng-app="rcaCricket">
-          <div class="lz-outter-box '. $attrs['theme'] .'" rca-recent-matches='.$seasonKey.' sec='.$nonceValue.' page-view='.$pageView.' prefix-url='.$prefixUrl.'></div>
+          <div class="lz-outter-box '. $attrs['theme'] .'" rca-recent-matches='.$seasonKey.' sec='.$nonceValue.' page-view='.$pageView.'></div>
         </div>
        ';
 }

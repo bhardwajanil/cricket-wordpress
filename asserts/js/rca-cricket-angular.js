@@ -97,7 +97,7 @@ var app = angular.module('rcaCricket', ['ngAnimate'])
 
       .success(function(data, status, headers, config){
         if(data && data.data && data.data.cards){
-          def.resolve(data.data.cards);
+          def.resolve(data.data.intelligent_order);
         }else{
           def.reject(data, status);
         }
@@ -306,7 +306,7 @@ app.directive('rcaCricketMatch', function(rcaAPI){
             }        
 
             match.manOfMatchBatsmanInnings = manOfMatch.match.innings[match.now.innings].batting;
-            if(match.manOfMatchBatsmanInnings != "") {
+            if(!match.manOfMatchBatsmanInnings && match.manOfMatchBatsmanInnings != "") {
               match.manOfMatchRuns    = match.manOfMatchBatsmanInnings.runs+"("+match.manOfMatchBatsmanInnings.balls+")";
               match.manOfMatchBoundaries  = match.manOfMatchBatsmanInnings.fours+"x4 "+match.manOfMatchBatsmanInnings.sixes+"x6";  
             } else {
@@ -327,7 +327,7 @@ app.directive('rcaCricketMatch', function(rcaAPI){
 
         var timeoutValue = 10;
         if(match.status == "started") {
-          timeoutValue = 1;
+          timeoutValue = 7;
         }
 
           $timeout(function(){
@@ -436,20 +436,15 @@ app.directive('rcaRecentMatches', function(rcaAPI){
       function onRecentUpdate(recent){
         $scope.recent = recent;
 
-        recent.matchKeys = {};
-        for (var i = 0; i < recent.length; i++) {
-          recent.matchKeys[i] = recent[i].key;
-        }
-
         $scope.dataStatus = 'ready';          
-        // D = recent;
-        // console.log(D);
+        //D = recent;
+        //console.log(D);
 
        
         $timeout(function(){
           rcaAPI.getRecentMatch($scope.rcaRecentMatches, 
             $scope.sec).then(onRecentUpdate);
-        }, 1000 * 2);
+        }, 1000 * 600);
       }
 
       rcaAPI.getRecentMatch($scope.rcaRecentMatches, $scope.sec).then(
